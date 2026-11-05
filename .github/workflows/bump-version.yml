@@ -1,0 +1,51 @@
+# Raises the plugin version after every push that changes the plugin,
+# so Claude Code, Codex and Copilot see an update and reinstall it.
+name: Bump plugin version
+
+on:
+  push:
+    branches: [main]
+    # Changes to these files don't reach installed plugins: no new version.
+    paths-ignore:
+      - "AGENTS.md"
+      - "README.md"
+      - ".gitignore"
+      - ".github/**"
+
+permissions:
+  contents: write
+
+# One run at a time, so two quick pushes can't both bump the same version.
+concurrency:
+  group: bump-version
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Bump patch version
+        id: bump
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          next=$(bash .github/scripts/bump-version.sh "$BEFORE")
+          echo "next=$next" >> "$GITHUB_OUTPUT"
+
+      # A push made with the workflow's own token doesn't start workflows
+      # again, so this commit doesn't trigger another bump.
+      - name: Commit and push
+        if: steps.bump.outputs.next != ''
+        env:
+          NEXT: ${{ steps.bump.outputs.next }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add .claude-plugin/plugin.json
+          git commit -m "chore: bump plugin version to $NEXT"
+          git pull --rebase origin main
+          git push origin HEAD:main
