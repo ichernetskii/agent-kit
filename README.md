@@ -21,6 +21,7 @@ codex plugin add agent-kit@ichernetskii
 
 ## Skills
 
+- [`commit-message`](skills/commit-message/SKILL.md): draft a Conventional Commit message for the staged changes, or for all changes if nothing is staged; it writes text only and never commits. Ask for a commit message or run `/commit-message`, optionally with `lang=ru`, `source=staged|all`, `body=none|always` or `variants=3`.
 - [`polish`](skills/polish/SKILL.md): polish English text or translate it from Russian. Run `/polish <text>`; add `--rewrite` (`-r`) for a free rewrite.
 
 ## License

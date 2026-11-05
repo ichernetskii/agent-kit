@@ -1,0 +1,3 @@
+interface:
+  display_name: "Commit Message"
+  short_description: "Generate concise Conventional Commit messages"
