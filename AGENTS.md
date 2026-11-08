@@ -1,13 +1,15 @@
 # AGENTS.md
 
 Personal toolkit for AI coding agents: skills and shared instructions.
-The content is vendor-neutral; each agent gets a thin adapter on top of it.
+Skills share one vendor-neutral format and one catalog; each agent gets a
+thin adapter on top of them.
 
 ## Layout
 
 - `skills/<name>/SKILL.md` — skills in the open Agent Skills format
   (frontmatter with `name` and `description`, then the instructions).
-  This is the shared core: any agent that supports Agent Skills can read it.
+  This is the shared catalog: any agent that supports Agent Skills can read
+  it, and each skill declares where it works.
 - `skills/<name>/agents/openai.yaml` — Codex metadata for that skill
   (see "Writing skills").
 - `AGENTS.md` — this file: how the repository is organized and how to change it.
@@ -21,15 +23,23 @@ The content is vendor-neutral; each agent gets a thin adapter on top of it.
 
 - Keep skills vendor-neutral. Do not reference tools or paths that exist
   in only one agent unless the skill is explicitly agent-specific.
-- An agent-specific skill says so wherever it shows: its name ends with
-  the agent's suffix (`-cc` for Claude Code), its description starts with
-  "<Agent> only", and its first instruction stops it in other agents.
-  Skill names can't contain `claude` or `anthropic` (reserved by
-  Anthropic), hence the suffix.
+- An agent-specific skill is still a skill: it lives in `skills/` like any
+  other and says where it works wherever it shows:
+  - `compatibility` in the frontmatter names the agent and what else the
+    skill needs (the Agent Skills field for environment requirements);
+  - its name ends with the agent's suffix (`-cc` for Claude Code). Skill
+    names can't contain `claude` or `anthropic` (reserved by Anthropic),
+    hence the suffix;
+  - its description starts with "<Agent> only";
+  - its first instruction stops it in other agents.
+
+  To hide such skills from other agents entirely, move them into a second
+  plugin in the same `marketplace.json`. A folder inside this plugin
+  doesn't hide them: every agent reads the same `.claude-plugin/` manifest.
 - One skill per folder; the folder name matches the `name` in `SKILL.md`.
-- Put every vendor-specific file into that vendor's adapter folder,
-  never into `skills/`. The one exception is `agents/openai.yaml` inside
-  each skill folder: Codex reads it only from there.
+- Adapter folders hold only manifests and connection settings, never
+  skills. A vendor's metadata for a skill sits in the skill folder only
+  when the vendor reads it from there: `agents/openai.yaml` for Codex.
 - Claude Code adapter:
   - `version` in `plugin.json` is raised automatically: after every push to
     `main` that changes the plugin, the `Bump plugin version` workflow

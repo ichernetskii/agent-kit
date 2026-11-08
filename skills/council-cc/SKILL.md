@@ -1,6 +1,7 @@
 ---
 name: council-cc
 description: "Claude Code only: a model council for hard decisions. Codex and two Claude agents answer independently, critique each other anonymously, and a Claude chair delivers the verdict."
+compatibility: "Claude Code only: runs on its Agent and SendMessage tools. Member A needs the Codex plugin for Claude Code (openai/codex-plugin-cc), the Codex CLI and Node.js 18.18+."
 disable-model-invocation: true
 argument-hint: "[--check] <question>"
 ---
