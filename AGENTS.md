@@ -21,6 +21,11 @@ The content is vendor-neutral; each agent gets a thin adapter on top of it.
 
 - Keep skills vendor-neutral. Do not reference tools or paths that exist
   in only one agent unless the skill is explicitly agent-specific.
+- An agent-specific skill says so wherever it shows: its name ends with
+  the agent's suffix (`-cc` for Claude Code), its description starts with
+  "<Agent> only", and its first instruction stops it in other agents.
+  Skill names can't contain `claude` or `anthropic` (reserved by
+  Anthropic), hence the suffix.
 - One skill per folder; the folder name matches the `name` in `SKILL.md`.
 - Put every vendor-specific file into that vendor's adapter folder,
   never into `skills/`. The one exception is `agents/openai.yaml` inside

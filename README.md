@@ -22,6 +22,7 @@ codex plugin add agent-kit@ichernetskii
 ## Skills
 
 - [`commit-message`](skills/commit-message/SKILL.md): draft a Conventional Commit message for the staged changes, or for all changes if nothing is staged; it writes text only and never commits. Ask for a commit message or run `/commit-message`, optionally with `lang=ru`, `source=staged|all`, `body=none|always` or `variants=3`.
+- [`council-cc`](skills/council-cc/SKILL.md): Claude Code only. A model council for hard decisions: Codex and two Claude agents answer independently, critique each other anonymously, and a Claude chair delivers the verdict. Needs the [Codex plugin for Claude Code](https://github.com/openai/codex-plugin-cc); the skill offers to set it up. Run `/council-cc <question>`, or `/council-cc --check` to check the setup.
 - [`polish`](skills/polish/SKILL.md): polish English text or translate it from Russian. Run `/polish <text>`; add `--rewrite` (`-r`) for a free rewrite.
 
 ## License

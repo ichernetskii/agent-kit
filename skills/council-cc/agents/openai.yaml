@@ -1,0 +1,5 @@
+interface:
+  display_name: "Council (Claude Code)"
+  short_description: "Claude Code only: a model council for hard decisions"
+policy:
+  allow_implicit_invocation: false
